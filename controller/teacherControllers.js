@@ -24,7 +24,25 @@ const login = async (req, res, next) => {
   return res.status(201).json({ message: "Teacher logged in successfully" });
 };
 
+const getStudent = async (req, res, next) => {
+  try {
+    const teacherId = req.params.id;
+    const teacher = await Teacher.findByPk(teacherId, {
+      include: Student,
+    });
+
+    if (!teacher) {
+      return res.status(404).json({ error: "Teacher not found" });
+    }
+
+    res.json(teacher);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   signup,
   login,
+  getStudent,
 };

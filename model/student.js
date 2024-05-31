@@ -1,26 +1,22 @@
-const Sequelize = require('sequelize');
+const Sequelize = require("sequelize");
+const Teacher = require("./teacher");
 
-const sequelize = require('../util/database');
-const Student=sequelize.define('student',{
-    id:{
-        type:Sequelize.INTEGER,
-        autoIncrement:true,
-        allowNull:false,
-        primaryKey:true
+const sequelize = require("../util/database");
+const Student = sequelize.define("student", {
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  teacherId: {
+    type: Sequelize.INTEGER,
+    references: {
+      model: Teacher,
+      key: "id",
     },
-    name:{
-        type:Sequelize.STRING,
-        allowNull:false
-    },
-    age:{
-        type:Sequelize.INTEGER,
-        allowNull:false
-
-    },
-    class:{
-        type:Sequelize.INTEGER,
-        allowNull:false
-
-    }
+  },
 });
-module.exports=Student
+
+Teacher.hasMany(Student, { foreignKey: "teacherId" });
+Student.belongsTo(Teacher, { foreignKey: "teacherId" });
+
+module.exports = Student;

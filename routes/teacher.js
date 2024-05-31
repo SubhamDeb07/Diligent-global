@@ -7,4 +7,6 @@ router.post("/login", teacherController.login);
 
 router.post("/signup", teacherController.signup);
 
+router.get("/:id", teacherController.getStudent);
+
 export default router;
